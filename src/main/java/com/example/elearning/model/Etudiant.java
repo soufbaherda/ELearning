@@ -4,6 +4,8 @@ package com.example.elearning.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -23,6 +25,9 @@ public class Etudiant {
     @NotNull
     private String password;
     private String role;
+
+    //private int coursesId;
+
 
     public String getRole() {
         return role;
@@ -66,6 +71,15 @@ public class Etudiant {
     public String getPassword() {
         return password;
     }
+
+/*    public int getCoursesId() {
+        return coursesId;
+    }
+
+    public void setCoursesId(int coursesId) {
+        this.coursesId = coursesId;
+    }*/
+
 
     public Etudiant(Long id, String name, String email, String password, String role) {
         this.id = id;

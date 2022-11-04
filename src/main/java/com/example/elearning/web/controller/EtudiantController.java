@@ -1,18 +1,27 @@
 package com.example.elearning.web.controller;
 
+import com.example.elearning.VO.ResponseTemplateVO;
 import com.example.elearning.model.Connexion;
 import com.example.elearning.model.Etudiant;
+import com.example.elearning.model.EtudiantCourses;
+import com.example.elearning.web.Service.EtudiantService;
+import com.example.elearning.web.dao.EtudiantCoursesDao;
 import com.example.elearning.web.dao.EtudiantDao;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class EtudiantController {
     private final EtudiantDao etudiantDao;
-    public EtudiantController(EtudiantDao etudiantDao) {
+    public EtudiantController(EtudiantDao etudiantDao, EtudiantService userService, EtudiantCoursesDao etudiantCoursesDao) {
         this.etudiantDao = etudiantDao;
+        this.userService = userService;
+        this.etudiantCoursesDao = etudiantCoursesDao;
     }
+    public final EtudiantService userService;
+
     @CrossOrigin
     @GetMapping("/verify/{email}")
     public String verifymail(@PathVariable String email) {
@@ -40,4 +49,20 @@ public class EtudiantController {
         return new Connexion(-1,"false","","");
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseTemplateVO getUserWithCourses( @PathVariable("id") Long userId){
+        return userService.getUserWithCourses(userId);
+    }
+
+    private final EtudiantCoursesDao etudiantCoursesDao;
+    @GetMapping("/{id}/courses")
+    public List<Integer> getEtudiantsCourses(@PathVariable("id") Long id){
+        return etudiantCoursesDao.getEtudiantCoursesById(id);
+    }
+
+    @PostMapping("/{id}")
+    public void addBook(@RequestBody EtudiantCourses etdCours){
+        etudiantCoursesDao.save(etdCours);
+    }
 }
