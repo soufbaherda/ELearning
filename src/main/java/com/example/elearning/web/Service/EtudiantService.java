@@ -23,6 +23,7 @@ public class EtudiantService {
         this.etudiantCoursesDao = etudiantCoursesDao;
     }
 
+
     private final EtudiantCoursesDao etudiantCoursesDao;
 
     public ResponseTemplateVO getUserWithCourses(Long userId){

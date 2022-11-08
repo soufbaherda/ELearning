@@ -10,6 +10,7 @@ import com.example.elearning.web.dao.EtudiantDao;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -21,6 +22,18 @@ public class EtudiantController {
         this.etudiantCoursesDao = etudiantCoursesDao;
     }
     public final EtudiantService userService;
+
+    @CrossOrigin
+    @GetMapping("/users")
+    public List<Etudiant> getUsers(){
+        return etudiantDao.findAll();
+    }
+
+    @CrossOrigin
+    @GetMapping("/users/{id}")
+    public Optional<Etudiant> getUserWithId(@PathVariable Long id){
+        return etudiantDao.findById(id);
+    }
 
     @CrossOrigin
     @GetMapping("/verify/{email}")
