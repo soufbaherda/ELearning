@@ -31,7 +31,7 @@ public class EtudiantController {
 
     @CrossOrigin
     @GetMapping("/users/{id}")
-    public Optional<Etudiant> getUserWithId(@PathVariable Long id){
+    public Optional<Etudiant> getUserWithId(@PathVariable("id") Long id){
         return etudiantDao.findById(id);
     }
 
@@ -62,20 +62,46 @@ public class EtudiantController {
         return new Connexion(-1,"false","","");
     }
 
-
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseTemplateVO getUserWithCourses( @PathVariable("id") Long userId){
         return userService.getUserWithCourses(userId);
     }
 
     private final EtudiantCoursesDao etudiantCoursesDao;
+
+    @CrossOrigin
     @GetMapping("/{id}/courses")
-    public List<Integer> getEtudiantsCourses(@PathVariable("id") Long id){
+    public List<Integer> getEtudiantsWithCourse(@PathVariable("id") Long id){
         return etudiantCoursesDao.getEtudiantCoursesById(id);
     }
+    @CrossOrigin
+    @GetMapping("/{id}/users")
+    public int getNumUser(@PathVariable("id") int id){
+        //return userService.getCoursesWithUser(id);
+        return etudiantCoursesDao.getNumetudiant(id);
+    }
 
-    @PostMapping("/{id}")
+    @CrossOrigin
+    @GetMapping("/{id}/usersCours")
+    public ResponseTemplateVO getCoursesEtudiants(@PathVariable("id") int id){
+        return userService.getCoursesWithUser(id);
+    }
+    @CrossOrigin
+    @PostMapping("/users/{id}")
     public void addBook(@RequestBody EtudiantCourses etdCours){
         etudiantCoursesDao.save(etdCours);
+    }
+
+
+    @CrossOrigin
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable("id") Long id ){
+        etudiantDao.deleteById(id);
+    }
+    @PutMapping("/update")
+    public String upDateCompte(@RequestBody Etudiant etudiant){
+        etudiantDao.save(etudiant);
+        return etudiant.getRole();
     }
 }
